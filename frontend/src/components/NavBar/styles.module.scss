@@ -1,0 +1,19 @@
+.container {
+    background-color: #53884c;
+    padding: 20px !important;
+    &__box {
+        display: flex;
+        width: 100%;
+        justify-content: end;
+    }
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+
+    &__link {
+        color: #f0f0f0;
+        text-decoration: none;
+    }
+}
