@@ -1,8 +1,10 @@
 import { useContext, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.scss";
 import { AlertContext } from "../../context/alert";
+import CryptoJS from 'crypto-js';
+import axios from "axios";
 
 export default function CardLogin() {
     const { setMessage, setShow, setVariant } = useContext(AlertContext);
@@ -10,10 +12,31 @@ export default function CardLogin() {
     var [email, setEmail] = useState("");
     var [pass, setPass] = useState("");
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         if (!formValid()) return;
-        navigate("/home");
+        const json = {
+            email,
+            pass,
+        };
+        const {REACT_APP_SECRET} = process.env
+
+        try {
+            const jsonCrypt = CryptoJS.AES.encrypt(
+                JSON.stringify(json),
+                REACT_APP_SECRET
+            ).toString();
+            var res = await axios.post("http://localhost:8080/api/user/login", {
+                jsonCrypt,
+            });
+            sessionStorage.setItem("token", res.data.token);
+            navigate("/home");
+        } catch (error) {
+            setMessage("Erro ao se conectar");
+            console.log(error);
+            setShow(true);
+            setVariant("danger");
+        }
     }
 
     function formValid() {
@@ -31,7 +54,7 @@ export default function CardLogin() {
         }
         return true;
     }
-    
+
     return (
         <Card className={styles.card}>
             <Card.Header className={styles.card__header}>
@@ -45,6 +68,7 @@ export default function CardLogin() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <Form.Control
+                        type="password"
                         value={pass}
                         placeholder="Insira sua senha"
                         onChange={(e) => setPass(e.target.value)}
@@ -52,6 +76,9 @@ export default function CardLogin() {
                     <Button className={styles.card__form__button} type="submit">
                         Entrar
                     </Button>
+                    <Link className={styles.card__link} to={"/register"}>
+                        Crie sua conta
+                    </Link>
                 </Form>
             </Card.Body>
         </Card>

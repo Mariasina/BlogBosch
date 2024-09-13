@@ -1,0 +1,25 @@
+.card {
+    width: 100%;
+    padding: 20px 30px;
+    &__title {
+        
+    }
+    &__body {
+        padding: 20px !important;
+        text-align: justify;
+        &__article{
+
+        }
+    }
+    &__like {
+        &:hover{
+            filter:saturate(50%)
+        }
+    }
+    &__likeInfo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 4%;
+    }
+}

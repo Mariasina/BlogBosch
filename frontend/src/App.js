@@ -7,7 +7,6 @@ import { AlertProvider } from "./context/alert";
 import "./App.css";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { Navbar } from "react-bootstrap";
-import { BiHome } from "react-icons/bi";
 import HomePage from "./pages/Home";
 
 function App() {
@@ -22,7 +21,7 @@ function App() {
                     <Route path="/main" element={
                       <ProtectedRoute 
                         errorPage={<AccessDenied/>}
-                        targetPage={<Navbar/>}
+                        targetPage={<HomePage/>}
                       />
                     } />
                 </Routes>

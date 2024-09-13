@@ -1,27 +1,22 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Container } from "react-bootstrap";
-import { AiOutlineLike } from "react-icons/ai";
 import styles from "./styles.module.scss";
+import { FcLike, FcLikePlaceholder } from "react-icons/fc";
+import axios from "axios";
 
 export default function Post() {
     var [artigos, setArtigos] = useState([]);
 
-    function getPosts() {
-        setArtigos([
-            {
-                id: 1,
-                title: "teste 1",
-                text: "Teste",
-                likes: 10,
-            },
-            {
-                id: 2,
-                title: "teste 2",
-                text: "Teste 2",
-                likes: 5,
-            },
-        ]);
+    async function getPosts() {
+        const res = await axios.get("http://localhost:8080/api/article");
+        setArtigos(res.data);
     }
+
+    async function handleClick(id) {
+        await axios.post(`http://localhost:8080/api/article/like/${id}`);
+        getPosts();
+    }
+
     useEffect(() => {
         getPosts();
     }, []);
@@ -38,20 +33,19 @@ export default function Post() {
                             {artigo.text}
                         </Card.Text>
                         <div className="d-flex align-items-center ">
-                            {artigo.likes}
-                            <Button variant="light">
-                                <AiOutlineLike />
-                            </Button>
+                            <div className={styles.card__likeInfo}>
+                                {artigo.likes}
+                                <FcLikePlaceholder
+                                    onClick={() => handleClick(artigo._id)}
+                                    className={styles.card__like}
+                                />
+                            </div>
                         </div>
                     </Card.Body>
                 </Card>
             );
         });
     };
-    
-    return (
-        <Container>
-            <RenderPosts />
-        </Container>
-    );
+
+    return <RenderPosts />;
 }

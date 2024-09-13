@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 
-export default function NavBar() {
+export default function Menu() {
     return (
         <Navbar className={styles.container} expand="lg">
             <Container fluid>

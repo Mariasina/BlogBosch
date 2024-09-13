@@ -1,11 +1,16 @@
 import FormComponent from "../../components/FormComponent";
-import NavBar from "../../components/NavBar";
+import Menu from "../../components/Menu";
+import styles from "./styles.module.scss";
 
 export default function AddPostPage() {
     return (
         <>
-            <NavBar />
-            <FormComponent />
+            <div className={styles.mainContainer}>
+                <Menu />
+                <div className={styles.formContainer}>
+                    <FormComponent />
+                </div>
+            </div>
         </>
     );
 }

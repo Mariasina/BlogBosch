@@ -1,11 +1,15 @@
-import NavBar from "../../components/NavBar";
+import { Container } from "react-bootstrap";
+import Menu from "../../components/Menu";
 import Post from "../../components/Post";
+import styles from "./styles.module.scss";
 
 export default function HomePage() {
     return (
         <>
-            <NavBar />
-            <Post />
+            <Menu />
+            <Container className={styles.postContainer}>
+                <Post />
+            </Container>
         </>
     );
 }
